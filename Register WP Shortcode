@@ -1,0 +1,9 @@
+/**
+ * Register WP shortcode
+ */
+add_shortcode( 'ct_render_cat_list', 'ct_render_cat_list_func' );
+function ct_render_cat_list_func( $atts ) {
+    ob_start();
+    ct_render_cat_list();
+    return ob_get_clean();
+}
