@@ -1,0 +1,38 @@
+/**
+ * WP Backend for Ajax function - catch user interactions (sharing via Social Media)
+ */
+add_action( 'wp_ajax_nopriv_user_catch_events', 'user_catch_events');
+add_action( 'wp_ajax_user_catch_events', 'user_catch_events' );
+
+function user_catch_events() {
+    // fomo integration
+    if ( $_POST[ 'type' ] == 'share' ) {
+        $post_id        = $_POST[ 'post_id' ];
+        $social_service = $_POST[ 'service' ];
+        // @TODO implement
+        // get user data from WP_User session or cookie
+        $first_name  = '';
+        $country_iso = '';
+        $title = '';
+        $url   = '';
+        if ( $post_id == 0 ) {
+            $url     = wp_get_referer();
+            $post_id = url_to_postid( $url );
+        }
+        if ( !is_null( $post_id ) ) {
+            $title = get_the_title( $post_id );
+            $url   = get_permalink( $post_id );
+        }
+        $country_key = strtolower( $country_iso );
+        // @TODO - normalize $data
+        $data = array();
+        ctUserfomoEvents::createEvent( $data );
+        $response = [
+            'html' => 'Done',
+        ];
+        wp_send_json_success( $response );
+        wp_die();
+    }
+    wp_send_json_error();
+    wp_die();
+}
