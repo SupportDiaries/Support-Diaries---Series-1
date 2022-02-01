@@ -1,0 +1,16 @@
+/**
+ * WooCommerce - customer completed checkout
+ */
+add_action( 'woocommerce_new_order', 'send_order_to_fomo' );
+
+function send_order_to_fomo( $order_id ){
+    $order = wc_get_order( $order_id );
+    $user = $order->get_user();
+
+    if( $user ){
+        // @TODO - implement
+        // prepare order / user data
+        $data = array();
+        ctUserfomoEvents::createEvent( $data );
+    }
+}
