@@ -1,0 +1,5 @@
+/**
+ * Include Bootstrap menu markup walker
+ */
+// functions.php
+require 'inc/bs5_nav_walker.php';
