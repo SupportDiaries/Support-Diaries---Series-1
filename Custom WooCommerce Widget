@@ -1,0 +1,75 @@
+/*
+ * WooCommerce Product List as accordion (BS5)
+ */
+function ct_render_cat_list()
+{
+    global $wp_query;
+    $current_cat = $wp_query->get_queried_object();
+    $current_term_id = null;
+    $current_parent_id = isset($current_cat->term_id) ? $current_cat->term_id : null;
+    if(!is_null($current_parent_id)){
+        if($current_cat->parent != 0) {
+            $current_parent_id = $current_cat->parent;
+        }
+        $current_term_id = $current_cat->term_id;
+    }
+    /**
+     * Product categories list
+     */
+    $args = array(
+        'taxonomy' => 'product_cat',
+        'hide_empty' => false,
+        'parent' => 0
+    );
+    $product_cat = get_terms($args);
+    echo '<h4>'. __('Categories') .'</h4>';
+    echo '<div class="accordion" id="accordionExample">';
+    foreach ($product_cat as $parent_product_cat) {
+        $parent_id = $parent_product_cat->term_id;
+        // skip 'Uncategorized'
+        if($parent_product_cat->term_id == '15'){
+            continue;
+        }
+        $button = '
+                  <a class="accordion-button collapsed text-decoration-none" href="' . get_term_link($parent_product_cat->term_id) . '">
+                    ' . $parent_product_cat->name . ' ('. $parent_product_cat->count .')
+                  </a>
+            ';
+        if($parent_id == $current_parent_id) {
+            $button = '<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse'. $parent_id .'" aria-expanded="true" aria-controls="collapse' . $parent_id .'">
+                       ' . $parent_product_cat->name . ' ('. $parent_product_cat->count .')
+                    </button>';
+        }
+        echo '
+<div class="accordion-item">
+    <h2 class="accordion-header" id="headingOne">
+        ' . $button .'
+    </h2>
+          ';
+        if($parent_id == $current_parent_id) {
+            $child_args = array(
+                'taxonomy' => 'product_cat',
+                'hide_empty' => false,
+                'parent' => $parent_product_cat->term_id
+            );
+            $child_product_cats = get_terms($child_args);
+            if (!empty($child_product_cats)):
+                echo '<div id="collapse' . $parent_id . '" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+              <div class="accordion-body"> ';
+                echo "<ul class='navbar-nav me-auto mb-2 mb-md-0 '>";
+                foreach ($child_product_cats as $child_product_cat) {
+                    $active_class = '';
+                    if($current_term_id == $child_product_cat->term_id ) {
+                        $active_class = 'active';
+                    }
+                    echo '<li class="nav-item"><a href="' . get_term_link($child_product_cat->term_id) . '" class="nav-link link-dark '. $active_class .'">' . $child_product_cat->name . ' ('. $child_product_cat->count .')</a></li>';
+                }
+                echo '</ul>';
+                echo '</div>
+                </div> <!-- / accordion-collapse -->';
+            endif;
+        }
+        echo '</div> <!-- accordion-item -->';
+    }
+    echo '</div> <!-- / accordion -->';
+}
