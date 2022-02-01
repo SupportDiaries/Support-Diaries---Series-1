@@ -1,0 +1,30 @@
+/**
+ * Define WordPress widget
+ */
+class CT_Cat_list_Widget extends WP_Widget
+{
+    function __construct()
+    {
+        parent::__construct(
+            'CT_Cat_list_Widget',
+            esc_html__('Product categories2', 'text_domain'),
+            array('description' => esc_html__('Product categories as accordion', 'text_domain'),)
+        );
+    }
+    /**
+     * Front-end display of widget.
+     *
+     * @param array $args Widget arguments.
+     * @param array $instance Saved values from database.
+     * @see WP_Widget::widget()
+     *
+     */
+    public function widget($args, $instance)
+    {
+        ct_render_cat_list();
+    }
+}
+function register_ct_widget() {
+    register_widget( 'CT_Cat_list_Widget' );
+}
+add_action( 'widgets_init', 'register_ct_widget' );
