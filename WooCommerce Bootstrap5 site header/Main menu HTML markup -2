@@ -1,0 +1,58 @@
+<?php
+// template-parts/header/site-header.php
+$logged_in_user = false;
+if ( is_user_logged_in() ){
+    $logged_in_user = true;
+}
+?>
+<button class="menu-btn-burger--wrapper no-styles collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="menu-btn-burger">
+         <span></span>
+        <span></span>
+        <span></span>
+    </span>
+</button>
+<a href="<?php echo get_site_url(); ?>" class="d-flex align-items-center site-branding1">
+<svg id="logo-8" width="140" height="30" viewBox="0 0 140 30" fill="none" style="background:red;">
+</a>
+<div class="d-flex align-items-center item--menu-col-b">
+    <form class="w-100 input-group me-5" id="searchform1" method="get" action="<?php echo esc_url( home_url( '/' ) ); ?>">
+        <input type="search" class="form-control" required name="s"  placeholder="<?php _e( 'Search'); ?>" aria-label="<?php _e( 'Search'); ?>" value="<?php echo get_search_query(); ?>">
+        <button class="btn btn-outline-secondary button-search" type="submit" id="button-addon2"><i class="las la-search"></i></button>
+    </form>
+    <div class="flex-shrink-0 dropdown item--menu-cart">
+        <a href="<?php echo apply_filters( 'woocommerce_add_to_cart_redirect', wc_get_cart_url(), null ) ?>" class="d-block link-dark text-decoration-none fs-7">
+            <span class="u-relative me-1">
+                <i class="las la-shopping-cart la-2x u-ico-va text-motive"></i>
+                <?php $cart_items = WC()->cart->get_cart_contents_count(); ?>
+                <?php if($cart_items > 0): ?>
+                    <span class="cart-basket d-flex align-items-center justify-content-center"><?php echo $cart_items; ?></span>
+                <?php endif; ?>
+            </span>
+            <span class="d-none d-md-inline-block"><?php _e( 'Cart','woocommerce'); ?></span>
+        </a>
+    </div>
+    <?php if(! $logged_in_user): ?>
+        <div class="flex-shrink-0">
+            <a href="<?php echo get_permalink( get_option('woocommerce_myaccount_page_id') ); ?>" title="<?php _e('My Account','woothemes'); ?>" class="d-block link-dark text-decoration-none fs-7">
+                <i class="las la-user la-2x u-ico-va text-motive"></i>
+                <span class="d-none d-md-inline-block"><?php _e( 'My account','woocommerce'); ?></span>
+            </a>
+        </div>
+    <?php else: ?>
+        <div class="flex-shrink-0 dropdown">
+            <a href="#" class="d-block link-dark text-decoration-none fs-7 dropdown-toggle" id="dropdownUser2"
+               data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="las la-user la-2x u-ico-va text-motive"></i>
+                <span class="d-none d-md-inline-block"><?php _e( 'My account','woocommerce'); ?></span>
+            </a>
+            <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
+                <?php foreach ( wc_get_account_menu_items() as $endpoint => $label ) : ?>
+                    <li class="<?php echo wc_get_account_menu_item_classes( $endpoint ); ?>">
+                        <a href="<?php echo esc_url( wc_get_account_endpoint_url( $endpoint ) ); ?>" class="dropdown-item"><?php echo esc_html( $label ); ?></a>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    <?php endif; ?>
+</div>
