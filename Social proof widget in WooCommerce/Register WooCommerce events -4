@@ -1,0 +1,15 @@
+/**
+ * Ajax request – JS frontend part: USER CATCH EVENTS share via social media
+ */
+
+$( '#social-share-links' ).find( 'a' ).click( function () {
+    $.ajax( {
+        type: "POST", dataType: "json", url: ctvars.ajaxurl, data: {
+            'action': 'user_catch_events', 'type': 'share',
+        }, success: function ( data ) {
+            console.log( data );
+        }, error: function ( jqXHR, errorText, errorThrown ) {
+            console.log( 'fail' );
+        }
+    } );
+} );
