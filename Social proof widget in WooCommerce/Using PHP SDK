@@ -1,0 +1,38 @@
+<?php
+
+// https://github.com/usefomo/fomo-php-sdk
+require get_template_directory() . '/inc/lib/Fomo/vendor/autoload.php';
+
+use Fomo\FomoClient;
+use Fomo\FomoEventBasic;
+
+class ctUserfomoEvents {
+   private static $auth_token = 'abc';
+   public static $app_id = 'efg';
+   private static $client;
+
+   public static function init() {
+      self::$client = new FomoClient(self::$auth_token);
+   }
+
+   public static function createEvent($first_name, $country_iso, $title, $url, $image_url, $last_name_letter, $template_id, $social_service = null, $total_price = null) {
+      $event = new FomoEventBasic();
+      $event->event_type_id = $template_id;
+      $event->first_name = $first_name;
+      $event->country = $country_iso;
+      $event->title = $title;
+      $event->url = $url;
+      $event->image_url = $image_url;
+      $event->addCustomEventField('last_name', $last_name_letter);
+      if(!empty($social_service)){
+         $event->addCustomEventField('social_service', $social_service);
+      }
+      if(!empty($total_price)){
+         $event->addCustomEventField('total_price', $total_price);
+      }
+      $fomoEvent = self::$client->createEvent($event);
+      return $fomoEvent;
+   }
+}
+
+ctUserfomoEvents::init();
