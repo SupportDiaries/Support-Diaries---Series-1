@@ -1,0 +1,15 @@
+// assets/js/main.js
+if(document.getElementById("js-m-header")) {
+    const header = document.querySelector("#js-m-header");
+    const ops = {
+        "offset": 100,
+        "tolerance": 5,
+        "classes": {
+            "initial": "headroom animated",
+            "pinned": "headroom--pinned slideDown",
+            "unpinned": "headroom--unpinned slideUp"
+        }
+    };
+    const headroom = new Headroom(header, ops);
+    headroom.init();
+}
