@@ -1,0 +1,30 @@
+/**
+ * Net / Gross woocommerce price
+ */
+function ct_display_2_prices($product){
+    $netto_price = wc_get_price_excluding_tax( $product );
+    $brutto_price = wc_get_price_including_tax( $product );
+    $with_tax_html = '';
+    if(!empty($netto_price)){
+        $tax_rate =  round(($brutto_price / $netto_price - 1) * 100);
+        $with_tax_html = '<span class="withTaxBadge">'. $tax_rate .'%<br><em>VAT</em></span>';
+    }
+    $prefix = '';
+    if ( $product->is_type( 'variable' ) ) {
+        $prefix = _x( 'From:', 'min_price', 'woocommerce' );
+    }
+    ?>
+    <?php if ( $price_html = $product->get_price_html() ) : ?>
+        <span class="price">
+            <span class="price--netto"><?php echo $prefix; ?> <?php echo ct_format_price($netto_price); ?></span>
+        <?php echo $prefix; ?> <?php echo ct_format_price($brutto_price); ?><?php echo $with_tax_html; ?></span>
+    <?php endif;
+}
+function ct_format_price($price, $decimal_separator = '.'){
+    if(empty($price)){
+        return '';
+    }
+    $unit = number_format( intval( $price ), 0, $decimal_separator, ',' );
+    $decimal = sprintf( '%02d', ( $price - intval( $price ) ) * 100 );
+    return $unit . '<small>' . $decimal_separator. $decimal . '</small>';
+}
