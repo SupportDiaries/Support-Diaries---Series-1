@@ -1,0 +1,24 @@
+<?php
+/**
+ * // template-parts/header/site-menu.php
+ */
+?>
+<div class="collapse navbar-collapse" id="main-menu">
+    <div class="mobile-search-wrapper" id="searchform2">
+        <form class="w-100 input-group" method="get" action="<?php echo esc_url( home_url( '/' ) ); ?>">
+            <input type="search" class="form-control" required name="s"  placeholder="<?php _e( 'Search'); ?>" aria-label="<?php _e( 'Search'); ?>" value="<?php echo get_search_query(); ?>">
+            <button class="btn btn-outline-secondary button-search" type="submit" id="button-addon2"><i class="las la-search"></i></button>
+        </form>
+    </div>
+    <?php
+    wp_nav_menu(array(
+        'theme_location' => 'primary',
+        'container' => false,
+        'menu_class' => '',
+        'fallback_cb' => '__return_false',
+        'items_wrap' => '<ul id="%1$s" class="navbar-nav w-100 justify-content-center %2$s">%3$s</ul>',
+        'depth' => 2,
+        'walker' => new bootstrap_5_wp_nav_menu_walker()
+    ));
+    ?>
+</div>
