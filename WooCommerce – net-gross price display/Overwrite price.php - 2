@@ -1,0 +1,12 @@
+<?php
+/**
+ * wp-content/themes/mytheme/woocommerce/single-product/price.php
+ */
+if ( ! defined( 'ABSPATH' ) ) {
+    exit; // Exit if accessed directly
+}
+global $product;
+ct_display_2_prices($product);
+?>
+<div class="clearfix"></div>
+<br>
