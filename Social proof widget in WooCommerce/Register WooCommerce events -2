@@ -1,0 +1,11 @@
+/**
+ * MC4WP: Mailchimp for WordPress
+ * triggered when: every time a MailChimp for WordPress integration is successfully used to subscribe.
+ */
+add_action( 'mc4wp_integration_subscribed', function( $integration, $email_address, $merge_vars ) {
+
+    // @TODO - gather all data from form
+    $data = array();
+    ctUserfomoEvents::createEvent( $data );
+
+}, 10, 3 );
