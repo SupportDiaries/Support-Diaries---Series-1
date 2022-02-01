@@ -1,0 +1,20 @@
+<?php
+// template-parts/header/top-nav.php
+$blog_id = get_current_blog_id();
+$lang1_class = 'btn-dark';
+$lang2_class = 'btn-primary';
+if($blog_id == 2) {
+    $lang1_class = 'btn-primary';
+    $lang2_class = 'btn-dark';
+}
+?>
+<ul class="nav me-auto">
+    <li class="nav-item"><a href="#" target="_blank" class="text-decoration-none fs-7"><?php esc_attr_e( 'Link1','my_textdomain'); ?></a></li>
+</ul>
+<ul class="nav">
+    <li class="nav-item me-lg-5 me-3">
+        <a href="/" class="btn btn-sm <?php echo $lang1_class; ?>">EN</a>
+        <a href="/es/" class="btn btn-sm <?php echo $lang2_class; ?>">ES</a>
+    </li>
+    <li class="nav-item"><a href="#" target="_blank" class="text-decoration-none fs-7"><i class="las la-clipboard-list la-2x u-ico-va me-2"></i><?php esc_attr_e( 'Link2','my_textdomain'); ?></a></li>
+</ul>
