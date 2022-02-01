@@ -1,0 +1,6 @@
+/**
+ * Enqueue FOMO widget
+ * The identifier following /api/v1 is your application's client_id, which is safe to share publicly.
+ */
+
+<script src="https://load.fomo.com/api/v1/abc123456789/load.js" async></script>
