@@ -1,0 +1,9 @@
+<?php
+/**
+ * wp-content/themes/mytheme/woocommerce/loop/price.php
+ */
+if ( ! defined( 'ABSPATH' ) ) {
+    exit; // Exit if accessed directly
+}
+global $product;
+ct_display_2_prices($product);
